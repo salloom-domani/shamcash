@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": ["bun"],
+    "paths": {
+      "shamcash": ["./src/index.ts"],
+      "shamcash/client": ["./src/client/index.ts"],
+      "shamcash/webhook": ["./src/webhook/index.ts"],
+      "shamcash/effect": ["./src/effect/index.ts"],
+      "shamcash/effect/rpc": ["./src/effect/rpc/index.ts"],
+      "shamcash/effect/rpc/server": ["./src/effect/rpc/server.ts"]
+    }
+  },
+  "include": ["src", "test", "examples", "tsdown.config.ts"]
+}

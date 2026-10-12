@@ -1,0 +1,80 @@
+{
+  "name": "shamcash",
+  "version": "0.1.0",
+  "description": "Unofficial ShamCash E-Payment SDK: runtime-agnostic, tree-shakable, zero-dependency, with first-class Effect support",
+  "keywords": [
+    "shamcash",
+    "payment",
+    "syria",
+    "epay",
+    "jwe",
+    "effect",
+    "webhook",
+    "sdk"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.12"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./webhook": {
+      "types": "./dist/webhook.d.ts",
+      "default": "./dist/webhook.js"
+    },
+    "./effect": {
+      "types": "./dist/effect.d.ts",
+      "default": "./dist/effect.js"
+    },
+    "./effect/rpc": {
+      "types": "./dist/effect/rpc.d.ts",
+      "default": "./dist/effect/rpc.js"
+    },
+    "./effect/rpc/server": {
+      "types": "./dist/effect/rpc/server.d.ts",
+      "default": "./dist/effect/rpc/server.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "effect": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "effect": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "bun test",
+    "test:smoke": "node test/smoke/smoke.mjs && bun test/smoke/smoke.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check:package": "publint && attw --pack . --profile esm-only",
+    "prepublishOnly": "bun run typecheck && bun run lint && bun test && bun run build && bun run test:smoke && bun run check:package"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@biomejs/biome": "^2.5.15",
+    "@types/bun": "^1.4.2",
+    "effect": "^4.0.3",
+    "jose": "^6.2.12",
+    "publint": "^0.3.25",
+    "tsdown": "^0.23.1",
+    "typescript": "^7.0.2"
+  }
+}

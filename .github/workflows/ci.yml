@@ -1,0 +1,44 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run lint
+      - run: bun test
+      - run: bun run build
+      - run: bun run check:package
+      - uses: actions/upload-artifact@v4
+        with: { name: dist, path: dist }
+
+  smoke:
+    needs: check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runtime: [node-22, node-24, bun, deno]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with: { name: dist, path: dist }
+      - if: startsWith(matrix.runtime, 'node')
+        uses: actions/setup-node@v4
+        with: { node-version: "${{ matrix.runtime == 'node-22' && '22.12' || '24' }}" }
+      - if: startsWith(matrix.runtime, 'node')
+        run: node test/smoke/smoke.mjs
+      - if: matrix.runtime == 'bun'
+        run: bun test/smoke/smoke.mjs
+      - if: matrix.runtime == 'deno'
+        uses: denoland/setup-deno@v2
+      - if: matrix.runtime == 'deno'
+        run: deno run -A test/smoke/smoke.mjs
