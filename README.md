@@ -282,6 +282,7 @@ Full runnable versions: [`examples/effect-server.ts`](examples/effect-server.ts)
 - **System browser, not WebView**, for `paymentUrl`.
 - **Webhook handlers must be idempotent** and answer within 10s.
 - Dates/times from ShamCash (`createdDate`, `createdTime`) carry no timezone; they're returned as-is.
+- `paymentUrl` embeds a fresh token on every `createBill`/`getBill` call — don't compare or cache it as an identifier; use `billNo`.
 
 ## Sandbox
 

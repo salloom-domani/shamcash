@@ -60,7 +60,11 @@ describe.skipIf(!enabled)("sandbox", () => {
   test("getBill matches, and decodes with the Effect schema", async () => {
     const plain = await getBill(config, billNo)
     const decoded = await effect((sc) => sc.getBill(billNo))
-    expect(decoded).toEqual(plain)
+    // paymentUrl carries a fresh token on every call; compare the rest
+    const { paymentUrl: a, ...plainRest } = plain
+    const { paymentUrl: b, ...decodedRest } = decoded
+    expect(decodedRest).toEqual(plainRest)
+    expect(new URL(b).searchParams.get("billNo")).toBe(new URL(a).searchParams.get("billNo"))
   })
 
   test("duplicate billNo → 1704", async () => {
