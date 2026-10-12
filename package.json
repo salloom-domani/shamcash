@@ -12,6 +12,14 @@
     "webhook",
     "sdk"
   ],
+  "homepage": "https://github.com/salloom-domani/shamcash#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salloom-domani/shamcash.git"
+  },
+  "bugs": {
+    "url": "https://github.com/salloom-domani/shamcash/issues"
+  },
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
@@ -60,6 +68,8 @@
   "scripts": {
     "build": "tsdown",
     "test": "bun test",
+    "test:sandbox": "SHAMCASH_E2E=1 bun test test/sandbox",
+    "sandbox:pay": "bun scripts/sandbox-pay.ts",
     "test:smoke": "node test/smoke/smoke.mjs && bun test/smoke/smoke.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",

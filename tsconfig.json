@@ -23,5 +23,5 @@
       "shamcash/effect/rpc/server": ["./src/effect/rpc/server.ts"]
     }
   },
-  "include": ["src", "test", "examples", "tsdown.config.ts"]
+  "include": ["src", "test", "scripts", "examples", "tsdown.config.ts"]
 }
