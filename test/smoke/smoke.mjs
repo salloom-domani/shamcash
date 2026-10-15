@@ -1,10 +1,10 @@
 // Runs the built package on any runtime: node, bun, deno.
 import assert from "node:assert/strict"
-import { createBill, createShamCash, decrypt, encrypt, importSecretKey } from "shamcash"
-import { isPaid, openPayment } from "shamcash/client"
-import { ShamCash } from "shamcash/effect"
-import { ShamCashRpcs } from "shamcash/effect/rpc"
-import { createWebhookHandler } from "shamcash/webhook"
+import { createBill, createShamCash, decrypt, encrypt, importSecretKey } from "@siters/shamcash"
+import { isPaid, openPayment } from "@siters/shamcash/client"
+import { ShamCash } from "@siters/shamcash/effect"
+import { ShamCashRpcs } from "@siters/shamcash/effect/rpc"
+import { createWebhookHandler } from "@siters/shamcash/webhook"
 
 const secretKey = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))))
 const key = await importSecretKey(secretKey)

@@ -1,4 +1,4 @@
-# shamcash
+# @siters/shamcash
 
 Unofficial TypeScript SDK for the ShamCash E-Payment API (spec v1.0.0).
 
@@ -10,21 +10,21 @@ Unofficial TypeScript SDK for the ShamCash E-Payment API (spec v1.0.0).
 > Not affiliated with ShamCash or SandLogix. You need a verified ShamCash commercial account and the `agentKey`, `secretKey` and `baseUrl` they issue.
 
 ```sh
-bun add shamcash        # or npm i / pnpm add / deno add npm:shamcash
+bun add @siters/shamcash   # or npm i / pnpm add / deno add npm:@siters/shamcash
 ```
 
 ## Entry points
 
 | Import | Where | What |
 |---|---|---|
-| `shamcash` | server | `createBill`, `getBill`, `refund`, `getTransactions`, `transactions`, `parseWebhook`, `createShamCash`, errors, codes |
-| `shamcash/webhook` | server | `createWebhookHandler` — `(Request) => Promise<Response>` |
-| `shamcash/client` | browser / app | `openPayment`, status helpers, types. No secrets, no crypto |
-| `shamcash/effect` | server | `ShamCash` service, `layer`, `layerConfig`, `layerWebhook`, tagged errors, schemas |
-| `shamcash/effect/rpc` | shared | `ShamCashRpcs` group (`StartPayment`, `GetPaymentStatus`) |
-| `shamcash/effect/rpc/server` | server | `layerHandlers` for `ShamCashRpcs` |
+| `@siters/shamcash` | server | `createBill`, `getBill`, `refund`, `getTransactions`, `transactions`, `parseWebhook`, `createShamCash`, errors, codes |
+| `@siters/shamcash/webhook` | server | `createWebhookHandler` — `(Request) => Promise<Response>` |
+| `@siters/shamcash/client` | browser / app | `openPayment`, status helpers, types. No secrets, no crypto |
+| `@siters/shamcash/effect` | server | `ShamCash` service, `layer`, `layerConfig`, `layerWebhook`, tagged errors, schemas |
+| `@siters/shamcash/effect/rpc` | shared | `ShamCashRpcs` group (`StartPayment`, `GetPaymentStatus`) |
+| `@siters/shamcash/effect/rpc/server` | server | `layerHandlers` for `ShamCashRpcs` |
 
-`effect@^4` is an optional peer dependency, only needed for `shamcash/effect*`.
+`effect@^4` is an optional peer dependency, only needed for `@siters/shamcash/effect*`.
 
 ## How a payment works
 
@@ -37,7 +37,7 @@ bun add shamcash        # or npm i / pnpm add / deno add npm:shamcash
 ## Quick start
 
 ```ts
-import { createBill, getBill, isShamCashError, ResultCode } from "shamcash"
+import { createBill, getBill, isShamCashError, ResultCode } from "@siters/shamcash"
 
 const config = {
   agentKey: process.env.SHAMCASH_AGENT_KEY!,
@@ -78,8 +78,8 @@ try {
 `createWebhookHandler` decrypts, authenticates and checks `exp`, then calls `onEvent`. It answers `200` on success, `400` for invalid/tampered/expired deliveries, `500` if `onEvent` throws (so ShamCash retries), `405` for non-POST.
 
 ```ts
-import { BillStatus } from "shamcash"
-import { createWebhookHandler } from "shamcash/webhook"
+import { BillStatus } from "@siters/shamcash"
+import { createWebhookHandler } from "@siters/shamcash/webhook"
 
 export const webhook = createWebhookHandler(config, {
   // Must be idempotent (ShamCash may redeliver) and finish within 10s.
@@ -128,7 +128,7 @@ export default {
 Node frameworks without `Request` use `parseWebhook` directly (accepts a raw string or parsed JSON):
 
 ```ts
-import { isShamCashError, parseWebhook } from "shamcash"
+import { isShamCashError, parseWebhook } from "@siters/shamcash"
 
 // Express
 app.post("/webhooks/shamcash", express.json(), async (req, res) => {
@@ -155,7 +155,7 @@ app.post("/webhooks/shamcash", async (request, reply) => {
 ## Frontend
 
 ```ts
-import { openPayment, isPaid } from "shamcash/client"
+import { openPayment, isPaid } from "@siters/shamcash/client"
 
 const { paymentUrl } = await fetch("/api/pay", { method: "POST", body: orderId }).then((r) => r.json())
 openPayment(paymentUrl)
@@ -206,7 +206,7 @@ Every failure is a `ShamCashError` with a `kind`:
 ```ts
 import { Effect, Layer, Stream } from "effect"
 import { FetchHttpClient } from "effect/http"
-import { layerConfig, ShamCash } from "shamcash/effect"
+import { layerConfig, ShamCash } from "@siters/shamcash/effect"
 
 // SHAMCASH_AGENT_KEY / SHAMCASH_SECRET_KEY (Redacted) / SHAMCASH_BASE_URL
 const ShamCashLive = layerConfig().pipe(Layer.provide(FetchHttpClient.layer))
@@ -229,7 +229,7 @@ const program = Effect.gen(function* () {
 ### Webhook route
 
 ```ts
-import { layerWebhook } from "shamcash/effect"
+import { layerWebhook } from "@siters/shamcash/effect"
 
 const WebhookLive = layerWebhook({
   path: "/webhooks/shamcash",
@@ -239,7 +239,7 @@ const WebhookLive = layerWebhook({
 
 ### RPC
 
-`shamcash/effect/rpc` is a small, browser-safe contract: the client names *what* to pay (`ref`), the server decides amount and currency. Refunds and the ledger are never exposed.
+`@siters/shamcash/effect/rpc` is a small, browser-safe contract: the client names *what* to pay (`ref`), the server decides amount and currency. Refunds and the ledger are never exposed.
 
 - `ShamCash.StartPayment({ ref })` → `{ billNo, paymentUrl }` — resumes automatically after a `1704` retry.
 - `ShamCash.GetPaymentStatus({ billNo })` → `{ billNo, statusId, statusName }`.
@@ -248,8 +248,8 @@ const WebhookLive = layerWebhook({
 ```ts
 // server
 import { RpcSerialization, RpcServer } from "effect/rpc"
-import { ShamCashRpcs } from "shamcash/effect/rpc"
-import { layerHandlers } from "shamcash/effect/rpc/server"
+import { ShamCashRpcs } from "@siters/shamcash/effect/rpc"
+import { layerHandlers } from "@siters/shamcash/effect/rpc/server"
 
 const RpcLive = RpcServer.layerHttp({ group: ShamCashRpcs, path: "/rpc", protocol: "http" }).pipe(
   Layer.provide(layerHandlers({

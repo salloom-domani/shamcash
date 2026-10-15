@@ -1,9 +1,10 @@
 // Browser side: start a payment over RPC, then hand off to ShamCash.
+
+import { openPayment } from "@siters/shamcash/client"
+import { ShamCashRpcs } from "@siters/shamcash/effect/rpc"
 import { Effect, Layer } from "effect"
 import { FetchHttpClient } from "effect/http"
 import { RpcClient, RpcSerialization } from "effect/rpc"
-import { openPayment } from "shamcash/client"
-import { ShamCashRpcs } from "shamcash/effect/rpc"
 
 const ProtocolLive = RpcClient.layerProtocolHttp({ url: "/rpc" }).pipe(
   Layer.provide([RpcSerialization.layerJson, FetchHttpClient.layer]),

@@ -24,7 +24,7 @@ const text = (status: number, body: string) =>
  * Web-standard webhook handler: `(Request) => Promise<Response>`.
  * Works as-is with Bun.serve, Deno.serve, Hono, Elysia, Next.js route
  * handlers, SvelteKit, Remix, Cloudflare Workers. For Node frameworks
- * (Express, Fastify) call `parseWebhook` from `shamcash` directly.
+ * (Express, Fastify) call `parseWebhook` from `@siters/shamcash` directly.
  */
 export const createWebhookHandler =
   (config: ShamCashConfig, options: WebhookHandlerOptions) =>

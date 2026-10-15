@@ -1,10 +1,11 @@
 // bun examples/effect-server.ts — ShamCash RPC + webhook on one Effect HttpRouter.
+
+import { layerConfig, layerWebhook } from "@siters/shamcash/effect"
+import { ShamCashPaymentError, ShamCashRpcs } from "@siters/shamcash/effect/rpc"
+import { layerHandlers } from "@siters/shamcash/effect/rpc/server"
 import { Effect, Layer } from "effect"
 import { FetchHttpClient, HttpRouter } from "effect/http"
 import { RpcSerialization, RpcServer } from "effect/rpc"
-import { layerConfig, layerWebhook } from "shamcash/effect"
-import { ShamCashPaymentError, ShamCashRpcs } from "shamcash/effect/rpc"
-import { layerHandlers } from "shamcash/effect/rpc/server"
 
 // Stand-in for your order store.
 const orders = new Map([["order-1", { total: "25.00", attempts: 0 }]])

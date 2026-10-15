@@ -56,7 +56,7 @@ export class ShamCash extends Context.Service<
       body: unknown,
     ) => Effect.Effect<S.WebhookEvent, ShamCashCryptoError | ShamCashDecodeError>
   }
->()("shamcash/ShamCash") {}
+>()("@siters/shamcash/ShamCash") {}
 
 const attempt = <A>(f: () => A) => Effect.try({ try: f, catch: fromUnknown })
 const attemptPromise = <A>(f: () => Promise<A>) => Effect.tryPromise({ try: f, catch: fromUnknown })

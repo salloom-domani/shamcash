@@ -49,7 +49,7 @@ export const assertServer = (allow: boolean | undefined): void => {
   if (typeof g.window !== "undefined" && typeof g.document !== "undefined") {
     throw new ShamCashError(
       "validation",
-      "shamcash must not run in the browser: it needs your secretKey. Use shamcash/client on the frontend.",
+      "@siters/shamcash must not run in the browser: it needs your secretKey. Use @siters/shamcash/client on the frontend.",
     )
   }
 }

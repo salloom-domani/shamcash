@@ -1,6 +1,6 @@
 /**
  * Client-facing RPC contract. Browser-safe: share it between your frontend
- * (`RpcClient`) and server (`shamcash/effect/rpc/server`).
+ * (`RpcClient`) and server (`@siters/shamcash/effect/rpc/server`).
  *
  * Deliberately small: the client names *what* to pay (`ref`), the server
  * decides amount and currency. Refunds and the ledger are never exposed.

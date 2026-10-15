@@ -15,12 +15,12 @@
     "skipLibCheck": true,
     "types": ["bun"],
     "paths": {
-      "shamcash": ["./src/index.ts"],
-      "shamcash/client": ["./src/client/index.ts"],
-      "shamcash/webhook": ["./src/webhook/index.ts"],
-      "shamcash/effect": ["./src/effect/index.ts"],
-      "shamcash/effect/rpc": ["./src/effect/rpc/index.ts"],
-      "shamcash/effect/rpc/server": ["./src/effect/rpc/server.ts"]
+      "@siters/shamcash": ["./src/index.ts"],
+      "@siters/shamcash/client": ["./src/client/index.ts"],
+      "@siters/shamcash/webhook": ["./src/webhook/index.ts"],
+      "@siters/shamcash/effect": ["./src/effect/index.ts"],
+      "@siters/shamcash/effect/rpc": ["./src/effect/rpc/index.ts"],
+      "@siters/shamcash/effect/rpc/server": ["./src/effect/rpc/server.ts"]
     }
   },
   "include": ["src", "test", "scripts", "examples", "tsdown.config.ts"]
